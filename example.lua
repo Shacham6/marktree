@@ -22,8 +22,58 @@ local float_win = vim.api.nvim_open_win(buf, true, {
 	title = "Attempt",
 })
 
--- vim.api.nvim_buf_set_text(float_win, 0, 0, end_row, end_col, replacement)
 local float_buff = vim.api.nvim_win_get_buf(float_win)
+
+vim.keymap.set("n", "q", function()
+	vim.print("called the thing")
+	vim.cmd([[quit]])
+end, {
+	buffer = float_buff,
+})
+
+-- Read about :map-meta-keys
+-- :key-notation
+-- :key-codes
+-- :keycodes
+
+for _, prefix in ipairs({ "'", "`" }) do
+	for i = 0, 10, 1 do
+		local shortcut = string.format("%s%d", prefix, i)
+		vim.keymap.set("n", shortcut, function()
+			vim.print(string.format("you pressed '%d", i))
+		end, {
+			buffer = float_buff,
+		})
+
+		for chrByte = string.byte("a"), string.byte("z") do
+			local chr = string.char(chrByte)
+			shortcut = string.format("%s%d%s", prefix, i, chr)
+			vim.keymap.set("n", shortcut, function()
+				vim.print(string.format("pressed shortcut is %s", shortcut))
+			end, {
+				buffer = float_buff,
+			})
+		end
+	end
+end
+
+vim.keymap.set("n", "'", function()
+	vim.print("just a toggle")
+end, {
+	-- nowait = true,
+	buffer = float_buff,
+})
+
+-- vim.keymap.set("n", "'", function()
+-- 	vim.print("just a toggle!")
+-- end, {
+-- 	nowait = true,
+-- 	buffer = float_buff,
+-- })
+
+vim.keymap.set("n", "<m-s>", function()
+	vim.print("wow")
+end)
 
 vim.api.nvim_buf_set_lines(float_buff, 0, 3, false, {
 	"this is a line",
