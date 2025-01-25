@@ -24,6 +24,13 @@ for char_byte = string.byte("a"), string.byte("z"), 1 do
 	local char = string.char(char_byte)
 
 	table.insert(items, {
+		string.format([[\%s]], char),
+		function()
+			print(string.format("want to set mark %s", char))
+		end,
+	})
+
+	table.insert(items, {
 		string.format("%s", char),
 		function()
 			print(string.format("pressed %s", char))
@@ -35,11 +42,9 @@ end
 Hydra({
 	name = "Example",
 	mode = "n",
-	-- body = [[<leader>m]],
 	body = [[\]],
 	config = {
 		invoke_on_body = false,
-		-- desc = "Hmm",
 
 		on_enter = function()
 			print("entered example mode")
@@ -60,13 +65,3 @@ Hydra({
 
 	heads = items,
 })
-
--- vim.keymap.set({ "n" }, [[\]], function()
--- 	Hydra:activate()
--- end)
--- vim.keymap.set({ "n" }, [[']], function()
--- 	Hydra:activate()
--- end)
--- vim.keymap.set({ "n" }, [[<leader>m]], function()
--- 	Hydra:activate()
--- end)
