@@ -1,14 +1,22 @@
 local Hydra = require("hydra")
+local whichkey = require("which-key")
 
 local items = {
-	{ "<leader>", function() end, { exit_before = true } },
+	{ "<leader>", function() end, { exit_before = true, hide = true } },
 }
 for number = 0, 9, 1 do
+	table.insert(items, {
+		string.format([[\%d]], number),
+		function()
+			print(string.format("want to set file to index %d", number))
+		end,
+	})
 	table.insert(items, {
 		string.format("%d", number),
 		function()
 			print(string.format("pressed %d", number))
 		end,
+		{ hide = true },
 	})
 end
 
@@ -20,21 +28,18 @@ for char_byte = string.byte("a"), string.byte("z"), 1 do
 		function()
 			print(string.format("pressed %s", char))
 		end,
+		{ hide = true },
 	})
 end
 
-Hydra:initialize({
+Hydra({
 	name = "Example",
 	mode = "n",
 	-- body = [[<leader>m]],
-	-- body = [[\]],
-	opts = {},
-	options = {},
+	body = [[\]],
 	config = {
-		opts = {},
-		options = {},
-		invoke_on_body = true,
-		desc = "Hmm",
+		invoke_on_body = false,
+		-- desc = "Hmm",
 
 		on_enter = function()
 			print("entered example mode")
@@ -56,15 +61,12 @@ Hydra:initialize({
 	heads = items,
 })
 
-vim.keymap.set({ "n" }, [[\]], function()
-	Hydra:activate()
-end)
-vim.keymap.set({ "n" }, [[']], function()
-	Hydra:activate()
-end)
-vim.keymap.set({ "n" }, [[<leader>m]], function()
-	Hydra:activate()
-end)
--- Hydra:activate()
--- Hydra:activate()
--- Hydra:activate()
+-- vim.keymap.set({ "n" }, [[\]], function()
+-- 	Hydra:activate()
+-- end)
+-- vim.keymap.set({ "n" }, [[']], function()
+-- 	Hydra:activate()
+-- end)
+-- vim.keymap.set({ "n" }, [[<leader>m]], function()
+-- 	Hydra:activate()
+-- end)
