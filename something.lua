@@ -21,7 +21,7 @@ local function get_harpoon_marks_thing()
 			end
 
 			-- vim.print(string.format("%s = [%s] %s", item.value, mark_char, vim.inspect(result)))
-			table.insert(buffer_marks, {
+			table.insert(things, {
 				bufnr = bufnr,
 				filename = item.value,
 				position = result,
@@ -30,11 +30,29 @@ local function get_harpoon_marks_thing()
 
 			::continue::
 		end
-		things[item.value] = buffer_marks
+		-- things[item.value] = buffer_marks
 	end
 
 	return things
 end
 
 local mark_things = get_harpoon_marks_thing()
-vim.print(mark_things)
+
+local nc = vim.api.nvim_create_namespace("marktree")
+
+local messages = {}
+
+for _, mark_thing in ipairs(mark_things) do
+	table.insert(
+		messages,
+		---@type vim.Diagnostic
+		{
+			filename = mark_thing.filename,
+			lnum = mark_thing.position[1],
+			col = mark_thing.position[2],
+			text = string.format("mark %s", mark_thing.mark_char),
+		}
+	)
+end
+
+vim.fn.setloclist(0, messages, "r")
