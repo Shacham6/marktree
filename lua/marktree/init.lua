@@ -20,11 +20,13 @@ local function get_harpoon_marks_thing()
 		local bufnr = vim.fn.bufadd(item.value)
 
 		local amount_found = 0
+
 		for mark_char_byte = string.byte("a"), string.byte("z"), 1 do
 			local mark_char = string.char(mark_char_byte)
 			local result = vim.api.nvim_buf_get_mark(bufnr, mark_char)
 
 			if result[1] == 0 and result[2] == 0 then
+				vim.print(result)
 				goto continue
 			end
 
@@ -44,8 +46,10 @@ local function get_harpoon_marks_thing()
 
 			::continue::
 		end
+
 		if amount_found == 0 then
-			local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+			vim.notify(string.format("nothing for %s", item.value))
+			local lines = vim.api.nvim_buf_get_lines(bufnr, 1, 2, false)
 			local lines_buffer = str_join(lines)
 			table.insert(things, {
 				bufnr = bufnr,
