@@ -48,7 +48,7 @@ local function get_harpoon_marks_thing()
 		end
 
 		if amount_found == 0 then
-			vim.notify(string.format("nothing for %s", item.value))
+			-- vim.notify(string.format("nothing for %s", item.value))
 			local lines = vim.api.nvim_buf_get_lines(bufnr, 1, 2, false)
 			local lines_buffer = str_join(lines)
 			table.insert(things, {
