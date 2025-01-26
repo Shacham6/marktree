@@ -83,6 +83,7 @@ function M.refresh()
 	local marks_loclist = get_harpoon_marks_loclist()
 	vim.print(marks_loclist)
 	insert_to_loclist(0, marks_loclist)
+	require("trouble").refresh("loclist")
 end
 
 function M.setup(opts)
