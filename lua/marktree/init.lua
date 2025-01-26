@@ -26,7 +26,6 @@ local function get_harpoon_marks_thing()
 			local result = vim.api.nvim_buf_get_mark(bufnr, mark_char)
 
 			if result[1] == 0 and result[2] == 0 then
-				vim.print(result)
 				goto continue
 			end
 
