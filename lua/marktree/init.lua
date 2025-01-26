@@ -93,7 +93,7 @@ function M.toggle_marktree_trouble()
 		win = {
 			focusable = false,
 			position = "right",
-			size = 70,
+			-- size = 70,
 		},
 	})
 end
