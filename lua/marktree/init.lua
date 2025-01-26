@@ -71,8 +71,6 @@ function M.toggle_marktree_trouble()
 		mode = "loclist",
 		title = "Marktree",
 		follow = false,
-		preview = false,
-		auto_preview = false,
 		win = {
 			focusable = false,
 			position = "right",
