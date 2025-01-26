@@ -18,6 +18,8 @@ local function get_harpoon_marks_thing()
 
 	for item_idx, item in ipairs(mainlist.items) do
 		local bufnr = vim.fn.bufadd(item.value)
+
+		local amount_found = 0
 		for mark_char_byte = string.byte("a"), string.byte("z"), 1 do
 			local mark_char = string.char(mark_char_byte)
 			local result = vim.api.nvim_buf_get_mark(bufnr, mark_char)
@@ -25,6 +27,8 @@ local function get_harpoon_marks_thing()
 			if result[1] == 0 and result[2] == 0 then
 				goto continue
 			end
+
+			amount_found = amount_found + 1
 
 			local lines = vim.api.nvim_buf_get_lines(bufnr, result[1] - 1, result[1], false)
 			local lines_buffer = str_join(lines)
@@ -39,6 +43,18 @@ local function get_harpoon_marks_thing()
 			})
 
 			::continue::
+		end
+		if amount_found == 0 then
+			local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+			local lines_buffer = str_join(lines)
+			table.insert(things, {
+				bufnr = bufnr,
+				filename = item.value,
+				position = { 1, 0 },
+				mark_char = "NO MARKS IN FILE",
+				harpoon_index = item_idx,
+				lines_buffer = lines_buffer,
+			})
 		end
 	end
 
