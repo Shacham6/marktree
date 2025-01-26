@@ -92,7 +92,7 @@ function M.toggle_marktree_trouble()
 		follow = false,
 		win = {
 			focusable = false,
-			position = "right",
+			position = M.config.win.position,
 			-- size = 70,
 		},
 	})
@@ -104,7 +104,16 @@ function M.refresh()
 	require("trouble").refresh("loclist")
 end
 
+---@class MarktreeConfig
+---@field win MarktreeConfigWin
+
+---@class MarktreeConfigWin
+---@field position "right" | "left" | "top" | "bottom"
+
+---@param opts MarktreeConfig
 function M.setup(opts)
+	M.config = opts
+
 	vim.api.nvim_create_user_command("MarkTreeRefresh", function()
 		M.refresh()
 	end, {})
