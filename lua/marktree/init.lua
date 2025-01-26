@@ -65,7 +65,7 @@ local function insert_to_loclist(nr, loclist_items)
 	vim.fn.setloclist(nr, loclist_items, "r")
 end
 
-local function toggle_marktree_trouble()
+function M.toggle_marktree_trouble()
 	local trouble = require("trouble")
 	trouble.toggle({
 		mode = "loclist",
@@ -81,15 +81,19 @@ local function toggle_marktree_trouble()
 	})
 end
 
+function M.refresh()
+	local marks_loclist = get_harpoon_marks_loclist()
+	vim.print(marks_loclist)
+	insert_to_loclist(0, marks_loclist)
+end
+
 function M.setup(opts)
 	vim.api.nvim_create_user_command("MarkTreeRefresh", function()
-		local marks_loclist = get_harpoon_marks_loclist()
-		vim.print(marks_loclist)
-		insert_to_loclist(0, marks_loclist)
+		M.refresh()
 	end, {})
 
 	vim.api.nvim_create_user_command("MarkTreeTrouble", function()
-		toggle_marktree_trouble()
+		M.toggle_marktree_trouble()
 	end, {})
 end
 
