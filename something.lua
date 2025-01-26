@@ -5,13 +5,7 @@ local function get_harpoon_marks_thing()
 	local things = {}
 
 	for _, item in ipairs(mainlist.items) do
-		-- vim.print(item)
-
 		local bufnr = vim.fn.bufadd(item.value)
-		-- print(string.format("bufnr = %d", bufnr))
-
-		local buffer_marks = {}
-
 		for mark_char_byte = string.byte("a"), string.byte("z"), 1 do
 			local mark_char = string.char(mark_char_byte)
 			local result = vim.api.nvim_buf_get_mark(bufnr, mark_char)
@@ -20,7 +14,6 @@ local function get_harpoon_marks_thing()
 				goto continue
 			end
 
-			-- vim.print(string.format("%s = [%s] %s", item.value, mark_char, vim.inspect(result)))
 			table.insert(things, {
 				bufnr = bufnr,
 				filename = item.value,
@@ -30,15 +23,12 @@ local function get_harpoon_marks_thing()
 
 			::continue::
 		end
-		-- things[item.value] = buffer_marks
 	end
 
 	return things
 end
 
 local mark_things = get_harpoon_marks_thing()
-
-local nc = vim.api.nvim_create_namespace("marktree")
 
 local messages = {}
 
