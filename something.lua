@@ -64,7 +64,10 @@ trouble.toggle({
 	mode = "loclist",
 	title = "Marktree",
 	follow = false,
+	preview = false,
+	auto_preview = false,
 	win = {
+		focusable = false,
 		position = "right",
 		size = 70,
 	},
